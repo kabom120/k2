@@ -1,6 +1,9 @@
 package control;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.Connection;
@@ -101,7 +104,20 @@ public class Login extends HttpServlet {
 	private String checkPsw(String psw) {
 		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			// Creare un'istanza di MessageDigest con l'algoritmo MD5
+            md = MessageDigest.getInstance("MD5");
+
+            // La stringa di input che vuoi hashare
+            String input = "exampleString";
+
+            // Convertire la stringa in byte e aggiornare il digest
+            byte[] hashInBytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+            // Convertire l'array di byte in una rappresentazione esadecimale
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashInBytes) {
+                sb.append(String.format("%02x", b));
+		}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
